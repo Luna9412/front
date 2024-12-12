@@ -1,10 +1,7 @@
-// interacciones con la tabla aprendiz
-
 let tablaRol = document.querySelector("#mitabla");
 let frmRol = document.querySelector("#frmRol");
 let btnNuevo = document.querySelector("#btnNuevo");
 let accionForm = "";
-//// Paginacion de la tabla
 let nombreRol = document.querySelector("#nombreRol");
 let btnPagina1 = document.querySelector("#btnPagina1");
 let btnPagina2 = document.querySelector("#btnPagina2");
@@ -16,11 +13,8 @@ let li2 = document.querySelector("#li2");
 let li3 = document.querySelector("#li3");
 let limite = 15;
 let pagina = 1;
-//Llmamos el metodo de modal de boostrap
 const frmCrearRol = new bootstrap.Modal(document.getElementById("frmCrearRol"));
-
-let api = "https://interpoliceback.onrender.com/api/roles/";
-
+let api = "https://back-fjvz.onrender.com/api/roles/";
 btnNuevo.addEventListener("click", () => {
   accionForm = "agregar";
   frmCrearRol.show();
@@ -34,7 +28,6 @@ btnSiguiente.addEventListener("click", () => {
   tablaRol.innerHTML = "";
   listarRoles();
 });
-
 btnAnterior.addEventListener("click", () => {
   if (pagina > 1) {
     pagina = pagina - 1;
@@ -44,7 +37,6 @@ btnAnterior.addEventListener("click", () => {
   tablaRol.innerHTML = "";
   listarRoles();
 });
-
 btnPagina1.addEventListener("click", () => {
   pagina = parseInt(btnPagina1.innerText);
   tablaRol.innerHTML = "";
@@ -90,7 +82,6 @@ const on = (element, event, selector, handler) => {
     }
   });
 };
-
 function listarRoles() {
   fetch(api + "listarTodosRoles" + "?limite=" + limite + "&pagina=" + pagina)
     .then((res) => res.json())
@@ -108,7 +99,6 @@ function listarRoles() {
       });
     });
 }
-
 frmRol.addEventListener("submit", (e) => {
   e.preventDefault(); // previene el evento por defecto de los formularios
 

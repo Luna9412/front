@@ -1,5 +1,3 @@
-// interacciones con la tabla CITYZEN
-
 let tablaCityzen = document.querySelector("#mitabla");
 let frmCityzen = document.querySelector("#frmCityzen");
 let nombreCityzen = document.querySelector("#TxtNombre");
@@ -11,8 +9,6 @@ let especieCityzen = document.querySelector(".especie");
 let selectEspecies = document.querySelector("#especie");
 let idFila = 0;
 let accionForm = "";
-
-// Paginacion de la tabla
 let btnPagina1 = document.querySelector("#btnPagina1");
 let btnPagina2 = document.querySelector("#btnPagina2");
 let btnPagina3 = document.querySelector("#btnPagina3");
@@ -23,15 +19,10 @@ let li2 = document.querySelector("#li2");
 let li3 = document.querySelector("#li3");
 let limite = 15;
 let pagina = 1;
-
-//Llmamos el metodo de modal de boostrap
 const frmCrearCityzen = new bootstrap.Modal(document.getElementById("frmCityzen"));
 let btnNuevo = document.querySelector("#btnNuevo");
-
-let api = "https://interpoliceback.onrender.com/api/cityzen/";
-
-let APIespecies = "https://interpoliceback.onrender.com/api/especieCiudadano/";
-
+let api = "https://back-fjvz.onrender.com/api/cityzen/";
+let APIespecies = "https://back-fjvz.onrender.com/api/especieCiudadano/";
 function especies() {
   fetch(APIespecies + "listarEspecies")
     .then((res) => res.json())
@@ -42,12 +33,10 @@ function especies() {
           `
             <option value="${especie.idespecie_ciudadano}">${especie.nombre}</option>
             ` + "</br>";
-
         selectEspecies.innerHTML += options;
       });
     });
 }
-
 btnNuevo.addEventListener("click", () => {
   accionForm = "agregar";
   frmCrearCityzen.show();
@@ -70,7 +59,6 @@ btnAnterior.addEventListener("click", () => {
   tablaCityzen.innerHTML = "";
   listarCityzen();
 });
-
 btnPagina1.addEventListener("click", () => {
   pagina = parseInt(btnPagina1.innerText);
   tablaCityzen.innerHTML = "";
@@ -109,7 +97,6 @@ if (btnPagina1.innerText == pagina) {
 } else if (btnPagina3.innerText == pagina) {
   li3.setAttribute("class", "page-item active");
 }
-
 const on = (element, event, selector, handler) => {
   element.addEventListener(event, (e) => {
     if (e.target.closest(selector)) {
@@ -117,7 +104,6 @@ const on = (element, event, selector, handler) => {
     }
   });
 };
-
 function listarCityzen() {
   fetch(api + "listarTodos" + "?limite=" + limite + "&pagina=" + pagina)
     .then((res) => res.json())
@@ -143,15 +129,12 @@ function listarCityzen() {
       });
     });
 }
-// enviar datos por el formulario, el request lleva un payload que es la data de los formulario.
-// metodo POST
 frmCityzen.addEventListener("submit", (e) => {
-  e.preventDefault(); // previene el evento por defecto de los formularios
+  e.preventDefault();
 
   if (accionForm == "agregar") {
     fetch(api + "crearCiudadano", {
       method: "POST",
-      // configuramos la cabecera, Header de peticion lleva una configuracin : contiene un archivo JS a JSON
       headers: {
         "Content-Type": "application/json"
       },
@@ -173,7 +156,6 @@ frmCityzen.addEventListener("submit", (e) => {
   } else if (accionForm == "editar") {
     fetch(api + "editarPorId/" + idFila + "", {
       method: "PUT",
-
       headers: {
         "Content-Type": "application/json"
       },
@@ -193,10 +175,7 @@ frmCityzen.addEventListener("submit", (e) => {
       });
   }
 });
-
-// METODO EDITAR y borrar
 function obtenerID(id, traerAccion) {
-  // traemos el ID y la accion correspondiente del los botones Editar y Borrar
   if (traerAccion === "editar") {
     idFila = id;
     accionForm = "editar";

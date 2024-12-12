@@ -1,11 +1,8 @@
-// interacciones con la tabla aprendiz
 let tablaGrado = document.querySelector("#mitabla");
 let frmGrado = document.querySelector("#frmGrado");
 let nombreRol = document.querySelector("#nombreGrado");
 let btnNuevo = document.querySelector("#btnNuevo")
 let accionForm = "";
-
-// Paginacion de la tabla
 let btnPagina1 = document.querySelector("#btnPagina1");
 let btnPagina2 = document.querySelector("#btnPagina2");
 let btnPagina3 = document.querySelector("#btnPagina3");
@@ -16,13 +13,8 @@ let li2 = document.querySelector("#li2");
 let li3 = document.querySelector("#li3");
 let limite = 15;
 let pagina = 1;
-
-//Llmamos el metodo de modal de boostrap
 const frmCrearGrado = new bootstrap.Modal(document.getElementById("frmCrearGrado"));
-;
-
-let api = "https://interpoliceback.onrender.com/api/grado/";
-
+let api = "https://back-fjvz.onrender.com/api/grado/";
 btnNuevo.addEventListener("click", () => {
   accionForm = "agregar";
   frmCrearGrado.show();
@@ -36,7 +28,6 @@ btnSiguiente.addEventListener("click", () => {
   tablaGrado.innerHTML = "";
   listarGrados();
 });
-
 btnAnterior.addEventListener("click", () => {
   if (pagina > 1) {
     pagina = pagina - 1;
@@ -46,7 +37,6 @@ btnAnterior.addEventListener("click", () => {
   tablaGrado.innerHTML = "";
   listarGrados();
 });
-
 btnPagina1.addEventListener("click", () => {
   pagina = parseInt(btnPagina1.innerText);
   tablaGrado.innerHTML = "";
@@ -92,7 +82,6 @@ const on = (element, event, selector, handler) => {
     }
   });
 };
-
 function listarGrados() {
   fetch(api + "listarTodosGrados" + "?limite=" + limite + "&pagina=" + pagina)
     .then((res) => res.json())
@@ -105,14 +94,12 @@ function listarGrados() {
           <td><a type="button" class="btnEditar btn btn-success" onclick="obtenerID(${grados.id},'editar') " ><i class="bi bi-pencil-square"></i></a></td>
           <td><a type="button" class="btnBorrar btn btn-danger" onclick="obtenerID(${grados.id},'eliminar') "  ><i class="bi bi-trash"></i></a></td>
           </tr> ` + "</br>";
-
         tablaGrado.innerHTML += fila;
       });
     });
 }
-
 frmGrado.addEventListener("submit", (e) => {
-  e.preventDefault(); // previene el evento por defecto de los formularios
+  e.preventDefault();
 
   if (accionForm == "agregar") {
     fetch(api + "crearGrado", {
@@ -133,7 +120,6 @@ frmGrado.addEventListener("submit", (e) => {
   } else if (accionForm == "editar") {
     fetch(api + "editarPorId" + idFila + "", {
       method: "PUT",
-      // configuramos la cabecera, Header de peticion lleva una configuracin : contiene un archivo JS a JSON
       headers: {
         "Content-Type": "application/json"
       },
@@ -149,7 +135,6 @@ frmGrado.addEventListener("submit", (e) => {
   }
 });
 function obtenerID(id, traerAccion) {
-  // traemos el ID y la accion correspondiente del los botones Editar y Borrar
   if (traerAccion === "editar") {
     idFila = id;
     accionForm = "editar";

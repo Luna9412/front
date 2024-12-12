@@ -1,5 +1,3 @@
-// interacciones con la tabla aprendiz
-
 let tablaDelito = document.querySelector("#mitabla");
 let frmDelito = document.querySelector("#frmTipoDelito");
 let nombreDelito = document.querySelector("#TxtTipoDelito");
@@ -7,8 +5,6 @@ let gradoDelito = document.querySelector("#grado");
 let selectGrado = document.querySelector(".grado");
 let btnNuevo = document.querySelector("#btnNuevo");
 let accionForm = "";
-
-//// Paginacion de la tabla
 let btnPagina1 = document.querySelector("#btnPagina1");
 let btnPagina2 = document.querySelector("#btnPagina2");
 let btnPagina3 = document.querySelector("#btnPagina3");
@@ -19,20 +15,15 @@ let li2 = document.querySelector("#li2");
 let li3 = document.querySelector("#li3");
 let limite = 15;
 let pagina = 1;
-
-//Llmamos el metodo de modal de boostrap
 const frmCrearDelito = new bootstrap.Modal(document.getElementById("frmCrearDelito"));
-
-let api = "https://interpoliceback.onrender.com/api/delito/";
-let APIgrado = "https://interpoliceback.onrender.com/api/grado/";
-
+let api = "https://back-fjvz.onrender.com/api/delito/";
+let APIgrado = "https://back-fjvz.onrender.com/api/grado/";
 listarDelitos();
 grados();
 btnNuevo.addEventListener("click", () => {
   accionForm = "agregar";
   frmCrearDelito.show();
 });
-
 const on = (element, event, selector, handler) => {
   element.addEventListener(event, (e) => {
     if (e.target.closest(selector)) {
@@ -40,9 +31,8 @@ const on = (element, event, selector, handler) => {
     }
   });
 };
-
 frmDelito.addEventListener("submit", (e) => {
-  e.preventDefault(); // previene el evento por defecto de los formularios
+  e.preventDefault();
 
   if (accionForm === "agregar") {
     fetch(api + "crearDelito", {
@@ -62,7 +52,6 @@ frmDelito.addEventListener("submit", (e) => {
   } else if (accionForm == "editar") {
     fetch(api + "editarPorId/" + idFila + "", {
       method: "PUT",
-      // configuramos la cabecera, Header de peticion lleva una configuracin : contiene un archivo JS a JSON
       headers: {
         "Content-Type": "application/json"
       },
@@ -78,9 +67,7 @@ frmDelito.addEventListener("submit", (e) => {
       });
   }
 });
-// Metodo de UPDATE Y DELETE
 function obtenerID(id, traerAccion) {
-  // traemos el ID y la accion correspondiente del los botones Editar y Borrar
   if (traerAccion === "editar") {
     idFila = id;
     accionForm = "editar";
@@ -135,12 +122,10 @@ function listarDelitos() {
           <td><a type="button" class="btnEditar btn btn-success" onclick="obtenerID(${delitos.idtipo_delito},'editar')"  ><i class="bi bi-pencil-square"></i></a></td>
           <td><a type="button" class="btnBorrar btn btn-danger" onclick="obtenerID(${delitos.idtipo_delito},'eliminar')" ><i class="bi bi-trash"></i></a></td>
           </tr> ` + "</br>";
-
         tablaDelito.innerHTML += fila;
       });
     });
 }
-
 btnSiguiente.addEventListener("click", () => {
   if (pagina < 67) {
     pagina = pagina + 1;
@@ -150,7 +135,6 @@ btnSiguiente.addEventListener("click", () => {
   tablaDelito.innerHTML = "";
   listarDelitos();
 });
-
 btnAnterior.addEventListener("click", () => {
   if (pagina > 1) {
     pagina = pagina - 1;
@@ -160,7 +144,6 @@ btnAnterior.addEventListener("click", () => {
   tablaDelito.innerHTML = "";
   listarDelitos();
 });
-
 btnPagina1.addEventListener("click", () => {
   pagina = parseInt(btnPagina1.innerText);
   tablaDelito.innerHTML = "";

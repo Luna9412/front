@@ -1,22 +1,14 @@
-// interacciones con la tabla aprendiz
-
 let tablaHistorial = document.querySelector("#mitabla");
 let idCityzen = document.getElementById("idCityzen");
-
-let api = "https://interpoliceback.onrender.com/api/historial/";
-
+let api = "https://back-fjvz.onrender.com/api/historial/";
 idCityzen.addEventListener("keyup", () => {
-  
   let id = document.querySelector("#idCityzen").value;
-
-  let api = "https://interpoliceback.onrender.com/api/historial/";
-
+  let api = "https://back-fjvz.onrender.com/api/historial/";
   function listarHistorial() {
     fetch(api + "historialCityzen/" + id + "")
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-
         res.historiales.forEach((historial) => {
           let fila =
             `
@@ -28,7 +20,6 @@ idCityzen.addEventListener("keyup", () => {
             <td> ${historial.grado}</td>
             <td style="text-align: justify;">${historial.descripcion}</td>
             </tr> ` + "</br>";
-
           tablaHistorial.innerHTML = fila;
         });
       });

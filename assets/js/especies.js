@@ -1,12 +1,8 @@
-// interacciones con la tabla aprendiz
 let tablaEspecie = document.querySelector("#mitabla");
 let frmEspecie = document.querySelector("#frmEspecie");
 let nombreEspecie = document.querySelector("#nombreEspecie");
 let btnNuevo = document.querySelector("#btnNuevo");
 let accionForm = "";
-
-
-// Paginacion de la tabla
 let btnPagina1 = document.querySelector("#btnPagina1");
 let btnPagina2 = document.querySelector("#btnPagina2");
 let btnPagina3 = document.querySelector("#btnPagina3");
@@ -17,13 +13,8 @@ let li2 = document.querySelector("#li2");
 let li3 = document.querySelector("#li3");
 let limite = 15;
 let pagina = 1;
-
-//Llmamos el metodo de modal de boostrap
 const frmCrearEspecie = new bootstrap.Modal(document.getElementById("frmCrearEspecie"));
-
-
-let api = "https://interpoliceback.onrender.com/api/especieCiudadano/";
-
+let api = "https://back-fjvz.onrender.com/api/especieCiudadano/";
 btnNuevo.addEventListener("click", () => {
   accionForm = "agregar";
   frmCrearEspecie.show();
@@ -92,13 +83,11 @@ const on = (element, event, selector, handler) => {
     }
   });
 };
-
 function listarEspecie() {
   fetch(api + "listarTodasEspecies" + "?limite=" + limite + "&pagina=" + pagina)
     .then((res) => res.json())
     .then((res) => {
       console.log(res);
-
       res.especie.forEach((especie) => {
         let fila =
           ` <tr>
@@ -107,19 +96,15 @@ function listarEspecie() {
           <td><a type="button" class="btnEditar btn btn-success" onclick="obtenerID(${especie.idespecie_ciudadano},'editar') " ><i class="bi bi-pencil-square"></i></a></td>
           <td><a type="button" class="btnBorrar btn btn-danger" onclick="obtenerID(${especie.idespecie_ciudadano},'eliminar') "  ><i class="bi bi-trash"></i></a></td>
           </tr> ` + "</br>";
-
         tablaEspecie.innerHTML += fila;
       });
     });
 }
-
 frmEspecie.addEventListener("submit", (e) => {
   e.preventDefault(); // previene el evento por defecto de los formularios
-
   if (accionForm == "agregar") {
     fetch(api + "crearEspecie", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json"
       },
@@ -135,7 +120,6 @@ frmEspecie.addEventListener("submit", (e) => {
   } else if (accionForm == "editar") {
     fetch(api + "editarEspeciePorId/" + idFila + "", {
       method: "PUT",
-      // configuramos la cabecera, Header de peticion lleva una configuracin : contiene un archivo JS a JSON
       headers: {
         "Content-Type": "application/json"
       },
@@ -151,7 +135,6 @@ frmEspecie.addEventListener("submit", (e) => {
   }
 });
 function obtenerID(id, traerAccion) {
-  // traemos el ID y la accion correspondiente del los botones Editar y Borrar
   if (traerAccion === "editar") {
     idFila = id;
     accionForm = "editar";
